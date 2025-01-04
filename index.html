@@ -1,10 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anuj Bisht - GenAI Engineer</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Prevent viewing source in dev tools -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'">
+
+    <script>
+        // Disable keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Disable Ctrl+U (view source)
+            if (e.ctrlKey && e.keyCode == 85) {
+                e.preventDefault();
+                return false;
+            }
+            // Disable Ctrl+S (save page)
+            if (e.ctrlKey && e.keyCode == 83) {
+                e.preventDefault();
+                return false;
+            }
+            // Disable Ctrl+Shift+I (developer tools)
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 73) {
+                e.preventDefault();
+                return false;
+            }
+            // Disable Ctrl+C (copy)
+            if (e.ctrlKey && e.keyCode == 67) {
+                e.preventDefault();
+                return false;
+            }
+            // Disable F12 (developer tools)
+            if (e.keyCode == 123) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Disable right-click context menu
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Disable text selection
+        document.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+        });
+
+        // Disable drag and drop
+        document.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+        });
+
+        // Additional protection against DevTools
+        setInterval(function() {
+            debugger;
+        }, 100);
+
+        // Disable copy-paste
+        document.addEventListener('copy', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        document.addEventListener('paste', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Disable print screen
+        document.addEventListener('keyup', function(e) {
+            if (e.key == 'PrintScreen') {
+                navigator.clipboard.writeText('');
+            }
+        });
+
+        // Disable screen capture API
+        if (navigator.mediaDevices) {
+            navigator.mediaDevices.getDisplayMedia = function() {
+                return new Promise(function(resolve, reject) {
+                    reject(new Error('Screen capture is disabled'));
+                });
+            };
+        }
+    </script>
+
     <style>
         :root {
             --primary-color: #1a202c;
@@ -275,6 +357,18 @@
                 font-size: 2.5rem;
             }
         }
+
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Hide source code when printed */
+        @media print {
+            html { display: none; }
+        }
     </style>
 </head>
 <body>
@@ -395,7 +489,6 @@
             <a href="https://www.linkedin.com/in/anujbisht/"><i class="fab fa-linkedin"></i></a>
             <a href="https://github.com/bishtanuj"><i class="fab fa-github"></i></a>
             <a href="https://www.instagram.com/bisht_anuj_"><i class="fab fa-instagram"></i></a>
-            <!-- <a href="#"><i class="fab fa-envelope"></i></a> -->
         </div>
     </footer>
 
