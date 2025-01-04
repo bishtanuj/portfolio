@@ -95,6 +95,7 @@
             --text-color: #2d3748;
             --bg-color: #ffffff;
             --nav-height: 70px;
+            --section-title-color: #000000;
         }
 
         * {
@@ -205,7 +206,7 @@
             text-align: center;
             margin-bottom: 4rem;
             font-size: 2.5rem;
-            color: var(--primary-color);
+            color: var(--section-title-color);
         }
 
         .about-content {
@@ -369,9 +370,113 @@
         @media print {
             html { display: none; }
         }
+
+        /* Resume Download Section Styles */
+        .resume-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+            color: white;
+            margin-top: 2rem;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background-color: white;
+            color: var(--primary-color);
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .download-btn:hover {
+            background-color: transparent;
+            color: white;
+            border-color: white;
+            transform: translateY(-3px);
+        }
+
+        .download-btn i {
+            margin-right: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .resume-section {
+                padding: 3rem 1rem;
+            }
+        }
+
+        /* Dark Mode Styles */
+        [data-theme="dark"] {
+            /* --primary-color: #1a1a1a; */
+            --primary-color: #121212;
+            /* --text-color: #ffffff; */
+            /* --bg-color: #121212; */
+            --bg-color: #000000;
+            /* --secondary-color: #3182ce; */
+            --section-title-color: #ffffff;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        /* Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--secondary-color);
+            z-index: 1001;
+            transition: width 0.1s ease;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            right: 20px;
+            bottom: 90px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
     </style>
 </head>
 <body>
+    <div class="scroll-progress"></div>
     <nav class="navbar">
         <div class="navbar-container">
             <a href="#" class="logo">AB</a>
@@ -396,7 +501,8 @@
     </section>
 
     <section id="about">
-        <h1 style="text-align: center; font-size: 2.5rem; margin-bottom: 2rem;">About Me</h1>
+        <!-- <h1 style="text-align: center; font-size: 2.5rem; margin-bottom: 2rem;">About Me</h1> -->
+        <h1 class="section-title">About Me</h1>
         <div class="about-content">
             <div class="about-image">
                 <img src="./images/profile.jpg" alt="Anuj Bisht" style="width: 100%; height: 100%; object-fit: cover;">
@@ -482,6 +588,21 @@
             </div>
     </section>
 
+    <section class="resume-section">
+        <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem;">Download My Resume</h2>
+        <p style="margin-bottom: 2rem; font-size: 1.1rem;">Get a detailed overview of my experience, skills, and achievements</p>
+        <a href="./assets/resume.pdf" download="Anuj Bisht - Resume.pdf" class="download-btn" onclick="trackDownload()">
+            <i class="fas fa-download"></i>Download Resume
+        </a>
+    </section>
+
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
     <footer>
         <p>Crafted with ❤️</p>
         <p>© 2024 Anuj Bisht. All rights reserved.</p>
@@ -509,6 +630,52 @@
                 if (navMenu.classList.contains('active')) {
                     navMenu.classList.remove('active');
                 }
+            });
+        });
+
+        // Track resume downloads (optional)
+        function trackDownload() {
+            // You can add analytics tracking here
+            console.log('Resume downloaded');
+        }
+
+        // Dark Mode Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.dataset.theme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+            themeToggle.innerHTML = document.body.dataset.theme === 'dark' ? 
+                '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        });
+
+        // Scroll Progress
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.querySelector('.scroll-progress').style.width = scrolled + '%';
+        });
+
+        // Back to Top
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.style.display = 'flex';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Smooth Scrolling for Navigation Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
             });
         });
     </script>
