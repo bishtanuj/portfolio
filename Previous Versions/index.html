@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anuj Bisht - GenAI Engineer</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Prevent viewing source in dev tools -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'">
+
+    <script>
+        // Disable keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Disable Ctrl+U (view source)
+            if (e.ctrlKey && e.keyCode == 85) {
+                e.preventDefault();
+                return false;
+            }
+            // Disable Ctrl+S (save page)
+            if (e.ctrlKey && e.keyCode == 83) {
+                e.preventDefault();
+                return false;
+            }
+            // Disable Ctrl+Shift+I (developer tools)
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 73) {
+                e.preventDefault();
+                return false;
+            }
+            // Disable Ctrl+C (copy)
+            if (e.ctrlKey && e.keyCode == 67) {
+                e.preventDefault();
+                return false;
+            }
+            // Disable F12 (developer tools)
+            if (e.keyCode == 123) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Disable right-click context menu
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Disable text selection
+        document.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+        });
+
+        // Disable drag and drop
+        document.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+        });
+
+        // Additional protection against DevTools
+        setInterval(function() {
+            debugger;
+        }, 100);
+
+        // Disable copy-paste
+        document.addEventListener('copy', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        document.addEventListener('paste', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Disable print screen
+        document.addEventListener('keyup', function(e) {
+            if (e.key == 'PrintScreen') {
+                navigator.clipboard.writeText('');
+            }
+        });
+
+        // Disable screen capture API
+        if (navigator.mediaDevices) {
+            navigator.mediaDevices.getDisplayMedia = function() {
+                return new Promise(function(resolve, reject) {
+                    reject(new Error('Screen capture is disabled'));
+                });
+            };
+        }
+    </script>
+
+    <style>
+        :root {
+            --primary-color: #1a202c;
+            --secondary-color: #4299e1;
+            --accent-color: #667eea;
+            --text-color: #2d3748;
+            --bg-color: #ffffff;
+            --nav-height: 70px;
+            --section-title-color: #000000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        /* Enhanced Navigation */
+        .navbar {
+            /* background-color: rgba(26, 32, 44, 0.98); */
+            background-color: var(--primary-color);
+            height: var(--nav-height);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: white;
+            background-color: var(--accent-color);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding-top: var(--nav-height);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+        }
+
+        /* Enhanced Sections */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+            font-size: 2.5rem;
+            color: var(--section-title-color);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: minmax(300px, 1fr) 2fr;
+            gap: 3rem;
+            margin-top: 2rem;
+            align-items: start;
+        }
+
+        .about-image {
+            background: #f5f5f5;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-placeholder {
+            width: 100%;
+            height: 100%;
+            background-color: #e2e8f0;
+        }
+
+        .about-text {
+            padding: 1rem 0;
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #1a202c;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #4a5568;
+            margin-bottom: 1rem;
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .project-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .education-timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline-item {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: #f5f6fa;
+            border-radius: 10px;
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .skill-item {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+
+        .social-links {
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            margin: 0 0.5rem;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .about-image-container {
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: var(--nav-height);
+                flex-direction: column;
+                background-color: var(--primary-color);
+                width: 100%;
+                padding: 2rem;
+                transition: 0.3s;
+                gap: 1rem;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Hide source code when printed */
+        @media print {
+            html { display: none; }
+        }
+
+        /* Resume Download Section Styles */
+        .resume-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+            color: white;
+            margin-top: 2rem;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background-color: white;
+            color: var(--primary-color);
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .download-btn:hover {
+            background-color: transparent;
+            color: white;
+            border-color: white;
+            transform: translateY(-3px);
+        }
+
+        .download-btn i {
+            margin-right: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .resume-section {
+                padding: 3rem 1rem;
+            }
+        }
+
+        /* Dark Mode Styles */
+        [data-theme="dark"] {
+            /* --primary-color: #1a1a1a; */
+            --primary-color: #121212;
+            /* --text-color: #ffffff; */
+            /* --bg-color: #121212; */
+            --bg-color: #000000;
+            /* --secondary-color: #3182ce; */
+            --section-title-color: #ffffff;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        /* Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--secondary-color);
+            z-index: 1001;
+            transition: width 0.1s ease;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            right: 20px;
+            bottom: 90px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-progress"></div>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="#" class="logo">AB</a>
+            <ul class="nav-menu">
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#experience" class="nav-link">Experience</a></li>
+                <li><a href="#education" class="nav-link">Education</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+            </ul>
+            <div class="hamburger">
+                <i class="fas fa-bars" style="color: white;"></i>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Anuj Bisht</h1>
+            <p>GenAI Engineer | Machine Learning Expert | Tech Innovator</p>
+        </div>
+    </section>
+
+    <section id="about">
+        <!-- <h1 style="text-align: center; font-size: 2.5rem; margin-bottom: 2rem;">About Me</h1> -->
+        <h1 class="section-title">About Me</h1>
+        <div class="about-content">
+            <div class="about-image">
+                <img src="./images/profile.jpg" alt="Anuj Bisht" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="about-text">
+                <p>I'm a passionate technocrat with a focus on Machine Learning, Deep Learning, NLP, and Generative AI. Currently an Associate Software Engineer at TestingXperts, I tackle real-world challenges with creativity and innovation, working on impactful projects that push technological boundaries.</p>
+                <p>With a strong foundation in advanced tech and a drive for continuous growth, I'm committed to developing solutions that transform industries and make a meaningful impact.</p>
+                <p>Let's connect and explore how we can innovate together!</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2 class="section-title">Projects</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <h3>AI Insurance Quiz</h3>
+                <p>It involves fine-tuning the Llama 3.2 3B model on insurance quiz documents to develop an interactive quiz interface for insurance candidates. The system generates subjective, multiple-choice, and true/false questions, while integrating OpenAI’s GPT-3.5 Turbo for evaluating subjective responses. The platform then delivers comprehensive results, streamlining candidate assessments and improving the evaluation process.</p>
+                <h4>Skills: LLM fine-tuning, LLM generation, FastAPI</h4>
+            </div>
+            <div class="project-card">
+                <h3>Mutual Fund Chatbot</h3>
+                <p>It is an intelligent conversational agent designed to assist users with queries related to mutual funds. Built using the GEMINI API and Flask, this chatbot provides instant responses and insights, making it easier for users to understand and navigate the complex world of mutual funds.</p>
+                <h4>Skills: Flask, LLM Inference</h4>
+            </div>
+            <div class="project-card">
+                <h3>Code Snippet Explainer</h3>
+                <p>Fine tuned T5 model, with the reliable data, so that it would be able to generate the explanation of the code snippet provided to it.</p>
+                <h4>Skills: LLM fine-tuning, LLM generation</h4>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience">
+        <h2 class="section-title">Experience</h2>
+        <div class="education-timeline">
+            <div class="timeline-item">
+                <h3>Associate Software Engineer (AI)</h3>
+                <h4>TestingXperts</h4>
+                <h6>(Dec, 2024 - Present)</h6>
+            </div>
+            <div class="timeline-item">
+                <h3>Software Development Trainee (AI)</h3>
+                <h4>TestingXperts</h4>
+                <h6>(June, 2024 - Nov, 2024)</h6>
+            </div>
+        </div>
+    </section>
+
+    <section id="education">
+        <h2 class="section-title">Education</h2>
+        <div class="education-timeline">
+            <div class="timeline-item">
+                <h3>Bachelor of Technology</h3>
+                <h4>Computer Science and Engineering</h4>
+                <p>Dr. APJ Abdul Kalam Technical University</p>
+                <h6>(2020 - 2024)</h6>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2 class="section-title">Skills</h2>
+        <div class="skills-container">
+            <span class="skill-item">Machine Learning</span>
+            <span class="skill-item">Deep Learning</span>
+            <span class="skill-item">Generative AI</span>
+            <span class="skill-item">GANs</span>
+            <span class="skill-item">NLP</span>
+            <span class="skill-item">Transformers</span>
+            <span class="skill-item">LangChain</span>
+            <span class="skill-item">PyTorch</span>
+            <span class="skill-item">TensorFlow</span>
+            <span class="skill-item">Hugging Face</span>
+            <span class="skill-item">FastAPI</span>
+            <span class="skill-item">Flask</span>
+            <span class="skill-item">Python</span>
+            <span class="skill-item">Streamlit</span>
+            <span class="skill-item">Gradio</span>
+            <span class="skill-item">Git</span>
+            <span class="skill-item">Postman</span>
+            <span class="skill-item">Data Analysis and Visualization</span>
+            </div>
+    </section>
+
+    <section class="resume-section">
+        <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem;">Download My Resume</h2>
+        <p style="margin-bottom: 2rem; font-size: 1.1rem;">Get a detailed overview of my experience, skills, and achievements</p>
+        <a href="./assets/resume.pdf" download="Anuj Bisht - Resume.pdf" class="download-btn" onclick="trackDownload()">
+            <i class="fas fa-download"></i>Download Resume
+        </a>
+    </section>
+
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <footer>
+        <p>Crafted with ❤️</p>
+        <p>© 2024 Anuj Bisht. All rights reserved.</p>
+        <div class="social-links">
+            <a href="https://www.linkedin.com/in/anujbisht/"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/bishtanuj"><i class="fab fa-github"></i></a>
+            <a href="https://www.instagram.com/bisht_anuj_"><i class="fab fa-instagram"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        const navLinks = document.querySelectorAll('.nav-link'); // Select all the navigation links
+        
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Add event listeners to each navigation link
+        navLinks.forEach(navLink => {
+            navLink.addEventListener('click', () => {
+                // Check if the menu is currently active before closing it
+                if (navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                }
+            });
+        });
+
+        // Track resume downloads (optional)
+        function trackDownload() {
+            // You can add analytics tracking here
+            console.log('Resume downloaded');
+        }
+
+        // Dark Mode Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.dataset.theme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+            themeToggle.innerHTML = document.body.dataset.theme === 'dark' ? 
+                '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        });
+
+        // Scroll Progress
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.querySelector('.scroll-progress').style.width = scrolled + '%';
+        });
+
+        // Back to Top
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.style.display = 'flex';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Smooth Scrolling for Navigation Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
